@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Musulmán - Zona de Bloques</title>
+    <!-- Fuentes: Pixelada para títulos, Monoespaciada para cuerpo -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Cutive+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta Base (DÍA) */
+            --mc-grass-green: #5DBE30;
+            --mc-dark-green: #3E8624;
+            --mc-brown-wood: #8B5A2B;
+            --mc-dark-brown: #54351A;
+            --mc-stone-gray: #7F7F7F;
+            --mc-cobblestone: #6A6A6A; /* Fondo página por defecto (Día) */
+            --mc-light-gray: #ABABAB;
+            --mc-sky-blue: #79C9F7;   /* Header por defecto (Día) */
+            --mc-water-blue: #4C7F99;
+            --mc-text-light: #F0F0F0;
+            --mc-text-dark: #2E2E2E;
+            --mc-sand: #E3DBA4;       /* Contenido por defecto (Día) */
+            --mc-black-overlay: rgba(0,0,0,0.6);
+
+            /* Paleta TARDE (Análisis) */
+            --mc-afternoon-sky: #FFA500; /* Naranja atardecer */
+            --mc-afternoon-sun: #FFD700; /* Amarillo sol */
+            --mc-afternoon-ground: #7A4A1F; /* Tierra más oscura/sombras */
+            --mc-afternoon-content-bg: #D2B48C; /* Tan (arena más cálida) */
+            --mc-afternoon-text: #402A14; /* Texto marrón oscuro */
+            --mc-afternoon-header-text: #402A14;
+            --mc-afternoon-nav-btn-bg: #FFD700;
+            --mc-afternoon-nav-btn-text: #805500;
+            --mc-afternoon-nav-btn-border: #B8860B;
+            --mc-afternoon-nav-btn-hover-bg: #FF8C00;
+
+
+            /* Paleta NOCHE (Guías) */
+            --mc-night-sky: #0C0C1E;  /* Azul muy oscuro, casi negro */
+            --mc-night-stars: #F0F0F0;/* Estrellas (texto claro) */
+            --mc-night-moon: #F5F3CE; /* Luna (acento claro) */
+            --mc-night-ground: #302E4D; /* Suelo oscuro/púrpura */
+            --mc-night-content-bg: #483D8B; /* Azul pizarra oscuro/Morado */
+            --mc-night-text: #D8BFD8; /* Texto lavanda claro */
+            --mc-night-header-text: var(--mc-night-moon);
+            --mc-night-nav-btn-bg: #6A5ACD; /* Púrpura para botones */
+            --mc-night-nav-btn-text: var(--mc-night-moon);
+            --mc-night-nav-btn-border: #483D8B;
+            --mc-night-nav-btn-hover-bg: #836FFF;
+
+
+            /* Paleta AMANECER (Equipo) */
+            --mc-dawn-sky: #FFB6C1;   /* Rosa claro cielo */
+            --mc-dawn-highlight: #FFA07A; /* Salmón/Naranja claro */
+            --mc-dawn-ground: #BDB76B;  /* Verde oliva/tierra húmeda */
+            --mc-dawn-content-bg: #FFF0F5; /* Lavanda blush (muy claro) */
+            --mc-dawn-text: #5C4033;  /* Marrón oscuro para texto */
+            --mc-dawn-header-text: #8B4513; /* Marrón silla de montar */
+            --mc-dawn-nav-btn-bg: #FFDAB9; /* Melocotón para botones */
+            --mc-dawn-nav-btn-text: #A0522D; /* Siena */
+            --mc-dawn-nav-btn-border: #D2B48C;
+            --mc-dawn-nav-btn-hover-bg: #FFA07A;
+        }
+
+        html { scroll-behavior: smooth; }
+        body, h1, h2, h3, h4, p, ul, li, a, figure, article, aside, footer, header, nav, section {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cutive Mono', 'VT323', monospace; /* Fuente monoespaciada para cuerpo */
+            background-color: var(--mc-cobblestone); /* Fondo principal por defecto (DÍA) */
+            color: var(--mc-text-light); /* Color de texto principal por defecto (DÍA) */
+            line-height: 1.6;
+            font-size: 16px; 
+            image-rendering: pixelated; /* Intenta que las imágenes se vean pixeladas si se escalan */
+            transition: background-color 0.5s ease, color 0.5s ease; /* Transición suave de fondo y color de texto general */
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Press Start 2P', cursive; /* Fuente pixelada para títulos */
+            color: var(--mc-text-light); /* Por defecto DÍA para títulos generales */
+            line-height: 1.3; 
+            text-shadow: 2px 2px var(--mc-black-overlay); /* Sombra dura para efecto 3D */
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+
+        /* Header del Blog - Estilos base y luego por tema */
+        header.blog-header {
+            background-color: var(--mc-sky-blue); /* Por defecto DÍA */
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--mc-dark-brown); /* Por defecto DÍA */
+            transition: background-color 0.5s ease, border-color 0.5s ease;
+        }
+        header.blog-header .logo-container { margin-bottom: 10px; }
+        header.blog-header .main-title-text { /* Se usa para el texto del título */
+            font-size: 2rem;
+            color: var(--mc-dark-brown); /* Por defecto DÍA */
+            text-shadow: 2px 2px #FFFFFF;
+            margin: 0; padding: 5px;
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+        header.blog-header #blogLogo img { /* Si usas un logo de imagen */
+            max-height: 50px; width: auto; display: inline-block; image-rendering: pixelated;
+         }
+        header.blog-header .subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: var(--mc-dark-green); /* Por defecto DÍA */
+            margin-bottom: 20px;
+            text-shadow: 1px 1px #FFFFFF;
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+        header.blog-header nav ul { list-style-type: none; }
+        header.blog-header nav ul li { display: inline-block; margin: 0 5px; }
+        header.blog-header nav ul li a {
+            font-family: 'Press Start 2P', cursive; font-size: 0.8rem; 
+            color: var(--mc-dark-brown); /* Por defecto DÍA */
+            text-decoration: none; padding: 8px 12px;
+            background-color: var(--mc-sand); /* Por defecto DÍA */
+            border: 2px solid var(--mc-dark-brown); /* Por defecto DÍA */
+            box-shadow: 2px 2px 0px var(--mc-cobblestone);
+            transition: background-color 0.1s ease, transform 0.1s ease, color 0.1s ease, border-color 0.1s ease, box-shadow 0.1s ease;
+            display: inline-block; margin-bottom: 5px;
+        }
+        header.blog-header nav ul li a:hover,
+        header.blog-header nav ul li a.active { 
+            background-color: var(--mc-grass-green); /* Por defecto DÍA */
+            color: var(--mc-text-light); /* Por defecto DÍA */
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--mc-cobblestone);
+        }
+
+        .main-container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+        .article-summary, #single-article-section, .static-page-section {
+            padding: 20px; margin-bottom: 25px;
+            border: 3px solid var(--mc-dark-brown); 
+            box-shadow: 3px 3px 0px var(--mc-black-overlay);
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+        }
+        .article-summary { /* Estilos DÍA para summary */
+            background-color: var(--mc-brown-wood); 
+            color: var(--mc-text-light);
+            display: flex; gap: 15px;
+        }
+        #single-article-section, .static-page-section { /* Estilos DÍA para contenido principal */
+             background-color: var(--mc-sand); 
+             color: var(--mc-dark-brown); 
+             display: none; /* Ocultas por defecto */
+        }
+        
+        .article-summary img.thumbnail {
+            width: 128px; height: 128px; object-fit: cover;
+            border: 2px solid var(--mc-dark-brown); image-rendering: pixelated;
+            background-color: var(--mc-cobblestone); 
+        }
+        .article-summary .summary-content { flex: 1; }
+        .article-summary h2 { /* Título DÍA en summary */
+            font-size: 1.3rem; margin-bottom: 8px;
+            color: var(--mc-text-light);
+        }
+        .article-summary h2 a { text-decoration: none; color: inherit; }
+        .article-summary h2 a:hover { color: var(--mc-grass-green); } /* Hover DÍA */
+        
+        .article-summary .meta-info { font-size: 0.8rem; color: var(--mc-sand); margin-bottom: 10px; }
+        .article-summary .meta-info .category { /* Categoría DÍA */
+            background-color: var(--mc-dark-green); color: var(--mc-text-light);
+            padding: 3px 6px; border: 1px solid var(--mc-grass-green);
+            font-family: 'Press Start 2P', cursive; font-size: 0.6rem; margin-right: 6px;
+        }
+        .article-summary .excerpt { margin-bottom: 12px; font-size: 0.9rem; }
+        
+        .article-summary .read-more-btn, .back-to-news-btn { /* Estilos comunes de botón */
+            font-family: 'Press Start 2P', cursive; display: inline-block; text-decoration: none;
+            font-size: 0.7rem; padding: 8px 12px;
+            border: 2px solid; box-shadow: 2px 2px 0px;
+            transition: background-color 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease, color 0.1s ease, border-color 0.1s ease;
+        }
+        .article-summary .read-more-btn { /* Leer Más DÍA */
+            background-color: var(--mc-grass-green); color: var(--mc-text-light);
+            border-color: var(--mc-dark-green); box-shadow: 2px 2px 0px var(--mc-dark-brown);
+        }
+        .article-summary .read-more-btn:hover { background-color: var(--mc-dark-green); transform: translate(1px,1px); box-shadow: 1px 1px 0px var(--mc-dark-brown); }
+
+        .back-to-news-btn { /* Volver DÍA */
+            background-color: var(--mc-stone-gray); color: var(--mc-text-light);
+            border-color: var(--mc-cobblestone); box-shadow: 2px 2px 0px var(--mc-dark-brown);
+            margin-top:20px; font-size:0.8rem; padding:10px 15px;
+        }
+        .back-to-news-btn:hover { background-color: var(--mc-cobblestone); transform: translate(1px,1px); box-shadow: 1px 1px 0px var(--mc-dark-brown); }
+        
+        @media (max-width: 768px) {
+            .article-summary { flex-direction: column; }
+            .article-summary img.thumbnail { width: 100%; height: 180px; margin-bottom: 10px;}
+        }
+
+        #single-article-section h1.article-title, .static-page-section h2 { /* Títulos DÍA en secciones */
+            color: var(--mc-dark-brown);
+            border-bottom: 3px dashed var(--mc-brown-wood);
+            text-shadow: 2px 2px var(--mc-sand);
+            padding-bottom: 10px; margin-bottom: 20px;
+        }
+        #single-article-section h1.article-title { font-size: 1.8rem; }
+        .static-page-section h2 { font-size: 1.5rem; }
+
+        #single-article-section .meta-info { font-size: 0.85rem; color: var(--mc-brown-wood); margin-bottom: 20px; }
+        #single-article-section .article-content img {
+            max-width: 100%; height: auto; display: block; margin: 20px auto;
+            border: 2px solid var(--mc-dark-brown); image-rendering: pixelated;
+        }
+        #single-article-section .article-content p { margin-bottom: 15px; font-size: 1rem; line-height: 1.7; }
+        #single-article-section .article-content h3 { /* Subtítulos DÍA en artículos */
+            font-size: 1.2rem; color: var(--mc-dark-green);
+            margin-top: 25px; margin-bottom: 10px;
+            text-shadow: 1px 1px var(--mc-sand);
+        }
+        
+        .static-page-section p { margin-bottom: 15px; font-size: 0.95rem; }
+        .static-page-section ul { list-style-type: square; padding-left: 20px; margin-bottom: 15px; }
+        .static-page-section ul li { margin-bottom: 8px; }
+        .static-page-section a { color: var(--mc-water-blue); text-decoration: underline; }
+        .static-page-section a:hover { color: var(--mc-sky-blue); }
+
+        .static-page-section h3.team-section-title {
+            font-size: 1.3rem; color: var(--mc-dark-brown); margin-top: 25px; margin-bottom: 20px;
+            text-align: center; border-bottom: 2px dotted var(--mc-brown-wood); padding-bottom: 10px;
+        }
+        .team-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; margin-top: 15px; margin-bottom: 25px;
+        }
+        .team-member-card {
+            background-color: var(--mc-brown-wood); border: 2px solid var(--mc-dark-brown);
+            padding: 15px; text-align: center; box-shadow: 2px 2px 0px var(--mc-cobblestone);
+            transition: background-color 0.5s ease, border-color 0.5s ease; /* Transición para tarjetas de equipo */
+        }
+        .member-logo { 
+            width: 64px; height: 64px; margin: 0 auto 10px auto; font-size: 2.5rem; 
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid var(--mc-dark-brown); background-color: var(--mc-sand); 
+            color: var(--mc-dark-brown);
+            transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+        }
+        .member-logo.shizuma-rose { color: #FF0000; }
+        .member-logo.megumi-boom { color: #FFA500; }
+        .member-logo.mystery-q { color: var(--mc-stone-gray); }
+        
+        .member-info h4 { /* Nombre DÍA en tarjeta equipo */
+            font-size: 1rem; color: var(--mc-text-light); margin-bottom: 6px;
+             transition: color 0.5s ease;
+        }
+        .member-info .member-bio { /* Bio DÍA en tarjeta equipo */
+            font-size: 0.85rem; color: var(--mc-sand); line-height: 1.5;
+             transition: color 0.5s ease;
+        }
+        
+        /* ----- TEMA TARDE (Análisis) ----- */
+        body.theme-afternoon { background-color: var(--mc-afternoon-ground); color: var(--mc-afternoon-text); }
+        body.theme-afternoon h1, body.theme-afternoon h2, body.theme-afternoon h3, body.theme-afternoon h4 { color: var(--mc-afternoon-text); text-shadow: 2px 2px rgba(0,0,0,0.3); }
+        body.theme-afternoon header.blog-header { background-color: var(--mc-afternoon-sky); border-bottom-color: var(--mc-afternoon-ground); }
+        body.theme-afternoon header.blog-header .main-title-text { color: var(--mc-afternoon-header-text); text-shadow: 2px 2px var(--mc-afternoon-sun); }
+        body.theme-afternoon header.blog-header .subtitle { color: var(--mc-afternoon-sun); text-shadow: 1px 1px var(--mc-afternoon-header-text); }
+        body.theme-afternoon header.blog-header nav ul li a {
+            background-color: var(--mc-afternoon-nav-btn-bg); color: var(--mc-afternoon-nav-btn-text);
+            border-color: var(--mc-afternoon-nav-btn-border); box-shadow: 2px 2px 0px var(--mc-afternoon-ground);
+        }
+        body.theme-afternoon header.blog-header nav ul li a:hover,
+        body.theme-afternoon header.blog-header nav ul li a.active {
+            background-color: var(--mc-afternoon-nav-btn-hover-bg); color: var(--mc-afternoon-header-text);
+        }
+        body.theme-afternoon .article-summary, body.theme-afternoon #single-article-section, body.theme-afternoon .static-page-section {
+            background-color: var(--mc-afternoon-content-bg); color: var(--mc-afternoon-text);
+            border-color: var(--mc-afternoon-ground); box-shadow: 3px 3px 0px rgba(0,0,0,0.4);
+        }
+        body.theme-afternoon .article-summary h2 { color: var(--mc-afternoon-text); }
+        body.theme-afternoon .article-summary h2 a:hover { color: var(--mc-afternoon-sun); }
+        body.theme-afternoon .article-summary .meta-info { color: var(--mc-brown-wood); }
+        body.theme-afternoon .article-summary .meta-info .category { background-color: var(--mc-afternoon-sun); color: var(--mc-afternoon-nav-btn-text); border-color: var(--mc-afternoon-nav-btn-hover-bg); }
+        body.theme-afternoon .article-summary .read-more-btn { background-color:var(--mc-afternoon-nav-btn-hover-bg) ; color:var(--mc-afternoon-header-text) ; border-color:var(--mc-afternoon-nav-btn-border) ; box-shadow: 2px 2px 0px var(--mc-afternoon-ground) ;}
+        body.theme-afternoon .article-summary .read-more-btn:hover { background-color:var(--mc-afternoon-nav-btn-bg) ;}
+        body.theme-afternoon #single-article-section h1.article-title, body.theme-afternoon .static-page-section h2 { color: var(--mc-afternoon-text); border-bottom-color: var(--mc-afternoon-ground); text-shadow: 2px 2px #fff5e1; }
+        body.theme-afternoon #single-article-section .meta-info { color: var(--mc-brown-wood); }
+        body.theme-afternoon #single-article-section .article-content h3 { color: var(--mc-afternoon-sun); text-shadow: 1px 1px var(--mc-afternoon-text); }
+        body.theme-afternoon .back-to-news-btn { background-color:var(--mc-afternoon-ground) ; color:var(--mc-afternoon-content-bg) ; border-color:var(--mc-dark-brown) ; box-shadow: 2px 2px 0px #522e13 ;}
+        body.theme-afternoon .back-to-news-btn:hover { background-color:var(--mc-brown-wood) ;}
+
+
+        /* ----- TEMA NOCHE (Guías) ----- */
+        body.theme-night { background-color: var(--mc-night-ground); color: var(--mc-night-text); }
+        body.theme-night h1, body.theme-night h2, body.theme-night h3, body.theme-night h4 { color: var(--mc-night-stars); text-shadow: 2px 2px rgba(0,0,0,0.7); }
+        body.theme-night header.blog-header { background-color: var(--mc-night-sky); border-bottom-color: var(--mc-night-ground); }
+        body.theme-night header.blog-header .main-title-text { color: var(--mc-night-header-text); text-shadow: 1px 1px var(--mc-night-sky); }
+        body.theme-night header.blog-header .subtitle { color: var(--mc-night-moon); text-shadow: 1px 1px var(--mc-night-sky); }
+        body.theme-night header.blog-header nav ul li a {
+            background-color: var(--mc-night-nav-btn-bg); color: var(--mc-night-nav-btn-text);
+            border-color: var(--mc-night-nav-btn-border); box-shadow: 2px 2px 0px #1f1d30;
+        }
+        body.theme-night header.blog-header nav ul li a:hover,
+        body.theme-night header.blog-header nav ul li a.active {
+            background-color: var(--mc-night-nav-btn-hover-bg);
+        }
+        body.theme-night .article-summary, body.theme-night #single-article-section, body.theme-night .static-page-section {
+            background-color: var(--mc-night-content-bg); color: var(--mc-night-text);
+            border-color: var(--mc-night-ground); box-shadow: 3px 3px 0px rgba(0,0,0,0.5);
+        }
+        body.theme-night .article-summary h2 { color: var(--mc-night-stars); }
+        body.theme-night .article-summary h2 a:hover { color: var(--mc-night-moon); }
+        body.theme-night .article-summary .meta-info { color: var(--mc-light-gray); }
+        body.theme-night .article-summary .meta-info .category { background-color: var(--mc-night-moon); color: var(--mc-night-content-bg); border-color: var(--mc-night-nav-btn-hover-bg); }
+        body.theme-night .article-summary .read-more-btn { background-color:var(--mc-night-nav-btn-hover-bg) ; color:var(--mc-night-nav-btn-text) ; border-color:var(--mc-night-nav-btn-border) ; box-shadow: 2px 2px 0px #1f1d30 ;}
+        body.theme-night .article-summary .read-more-btn:hover { background-color:var(--mc-night-nav-btn-bg) ;}
+        body.theme-night #single-article-section h1.article-title, body.theme-night .static-page-section h2 { color: var(--mc-night-stars); border-bottom-color: var(--mc-night-ground); text-shadow: 2px 2px #2a2250; }
+        body.theme-night #single-article-section .meta-info { color: var(--mc-light-gray); }
+        body.theme-night #single-article-section .article-content h3 { color: var(--mc-night-moon); text-shadow: 1px 1px var(--mc-night-content-bg); }
+        body.theme-night .back-to-news-btn { background-color:var(--mc-night-ground) ; color:var(--mc-night-stars) ; border-color:var(--mc-night-sky) ; box-shadow: 2px 2px 0px #171627 ;}
+        body.theme-night .back-to-news-btn:hover { background-color:var(--mc-night-sky) ;}
+
+
+        /* ----- TEMA AMANECER (Equipo) ----- */
+        body.theme-dawn { background-color: var(--mc-dawn-ground); color: var(--mc-dawn-text); }
+        body.theme-dawn h1, body.theme-dawn h2, body.theme-dawn h3, body.theme-dawn h4 { color: var(--mc-dawn-text); text-shadow: 2px 2px rgba(255,255,255,0.3); }
+        body.theme-dawn header.blog-header { background-color: var(--mc-dawn-sky); border-bottom-color: var(--mc-dawn-ground); }
+        body.theme-dawn header.blog-header .main-title-text { color: var(--mc-dawn-header-text); text-shadow: 1px 1px #fff0f5; }
+        body.theme-dawn header.blog-header .subtitle { color: var(--mc-dawn-highlight); text-shadow: 1px 1px #fff0f5; }
+        body.theme-dawn header.blog-header nav ul li a {
+            background-color: var(--mc-dawn-nav-btn-bg); color: var(--mc-dawn-nav-btn-text);
+            border-color: var(--mc-dawn-nav-btn-border); box-shadow: 2px 2px 0px var(--mc-dawn-ground);
+        }
+        body.theme-dawn header.blog-header nav ul li a:hover,
+        body.theme-dawn header.blog-header nav ul li a.active {
+            background-color: var(--mc-dawn-nav-btn-hover-bg); color: var(--mc-text-light);
+        }
+        body.theme-dawn .article-summary, body.theme-dawn #single-article-section, body.theme-dawn .static-page-section {
+            background-color: var(--mc-dawn-content-bg); color: var(--mc-dawn-text);
+            border-color: var(--mc-dawn-ground); box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+        body.theme-dawn .article-summary h2 { color: var(--mc-dawn-text); }
+        body.theme-dawn .article-summary h2 a:hover { color: var(--mc-dawn-highlight); }
+        body.theme-dawn .article-summary .meta-info { color: var(--mc-brown-wood); }
+        body.theme-dawn .article-summary .meta-info .category { background-color: var(--mc-dawn-highlight); color: var(--mc-text-light); border-color: var(--mc-dawn-nav-btn-hover-bg); }
+        body.theme-dawn .article-summary .read-more-btn { background-color:var(--mc-dawn-nav-btn-hover-bg) ; color:var(--mc-text-light) ; border-color:var(--mc-dawn-nav-btn-border) ; box-shadow: 2px 2px 0px var(--mc-dawn-ground) ;}
+        body.theme-dawn .article-summary .read-more-btn:hover { background-color:var(--mc-dawn-nav-btn-bg); color: var(--mc-dawn-nav-btn-text); }
+        body.theme-dawn #single-article-section h1.article-title, body.theme-dawn .static-page-section h2 { color: var(--mc-dawn-text); border-bottom-color: var(--mc-dawn-ground); text-shadow: 2px 2px #fff5e1; }
+        body.theme-dawn #single-article-section .meta-info { color: var(--mc-brown-wood); }
+        body.theme-dawn #single-article-section .article-content h3 { color: var(--mc-dawn-highlight); text-shadow: 1px 1px var(--mc-dawn-content-bg); }
+        body.theme-dawn .back-to-news-btn { background-color:var(--mc-dawn-ground) ; color:var(--mc-text-light) ; border-color:var(--mc-brown-wood) ; box-shadow: 2px 2px 0px #87824b ;}
+        body.theme-dawn .back-to-news-btn:hover { background-color:var(--mc-brown-wood) ;}
+
+        body.theme-dawn .team-member-card { background-color: var(--mc-dawn-nav-btn-bg); border-color: var(--mc-dawn-nav-btn-border); }
+        body.theme-dawn .member-logo { background-color: var(--mc-dawn-content-bg); border-color: var(--mc-dawn-nav-btn-border); color: var(--mc-dawn-nav-btn-text); }
+        body.theme-dawn .member-info h4 { color: var(--mc-dawn-header-text); }
+        body.theme-dawn .member-info .member-bio { color: var(--mc-dawn-text); }
+        
+        body.theme-night .team-member-card { background-color: var(--mc-night-nav-btn-bg); border-color: var(--mc-night-nav-btn-border); }
+        body.theme-night .member-logo { background-color: var(--mc-night-ground); border-color: var(--mc-night-nav-btn-border); color: var(--mc-night-nav-btn-text); }
+        body.theme-night .member-info h4 { color: var(--mc-night-moon); }
+        body.theme-night .member-info .member-bio { color: var(--mc-night-stars); }
+
+        body.theme-afternoon .team-member-card { background-color: var(--mc-afternoon-nav-btn-bg); border-color: var(--mc-afternoon-nav-btn-border); }
+        body.theme-afternoon .member-logo { background-color: var(--mc-afternoon-content-bg); border-color: var(--mc-afternoon-nav-btn-border); color: var(--mc-afternoon-nav-btn-text); }
+        body.theme-afternoon .member-info h4 { color: var(--mc-afternoon-header-text); }
+        body.theme-afternoon .member-info .member-bio { color: var(--mc-afternoon-text); }
+
+
+        /* Footer - General, no cambia mucho por tema */
+        footer.blog-footer {
+            background-color: var(--mc-dark-brown); 
+            color: var(--mc-sand);
+            text-align: center; padding: 20px;
+            font-size: 0.8rem; margin-top: 30px;
+            border-top: 4px solid var(--mc-cobblestone);
+            font-family: 'Press Start 2P', cursive; 
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+        }
+        body.theme-night footer.blog-footer { background-color: var(--mc-night-sky); border-top-color: var(--mc-night-ground); color: var(--mc-night-moon); }
+        body.theme-afternoon footer.blog-footer { background-color: var(--mc-afternoon-ground); border-top-color: var(--mc-afternoon-sky); color: var(--mc-afternoon-sun); }
+        body.theme-dawn footer.blog-footer { background-color: var(--mc-dawn-ground); border-top-color: var(--mc-dawn-sky); color: var(--mc-dawn-header-text); }
+
+    </style>
+</head>
+<body>
+
+    <header class="blog-header">
+        <div class="logo-container">
+            <!-- <img src="tu-logo-pixelado.png" alt="El Musulmán - Zona de Bloques" id="blogLogo"> -->
+            <h1 class="main-title-text">El Musulmán</h1>
+        </div>
+        <p class="subtitle">Zona de Bloques</p>
+        <nav>
+            <ul>
+                <li><a href="#" id="nav-home" class="active">Inicio</a></li>
+                <li><a href="#" id="nav-noticias">Noticias</a></li>
+                <li><a href="#" id="nav-analisis">Análisis</a></li>
+                <li><a href="#" id="nav-guias">Guías</a></li>
+                <li><a href="#" id="nav-equipo">Equipo</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-container">
+
+        <section id="news-feed-section">
+            <!-- Los artículos se cargarán aquí con JavaScript -->
+        </section>
+
+        <section id="single-article-section">
+            <button class="back-to-news-btn" id="backToNewsBtn">&lt;&lt; Volver</button>
+            <h1 class="article-title" id="singleArticleTitle"></h1>
+            <p class="meta-info" id="singleArticleMeta"></p>
+            <div class="article-content" id="singleArticleContent"></div>
+        </section>
+
+        <section id="analisis-section" class="static-page-section">
+             <h2>Analisis Profundos</h2>
+            <p>¡Bienvenido al atardecer de las ideas! Aqui desmenuzamos cada pixel y cada linea de codigo mientras el sol se pone en el horizonte de bloques.</p>
+        </section>
+        
+        <section id="guias-section" class="static-page-section">
+             <h2>Guias Pixeladas Nocturnas</h2>
+            <p>¿Perdido en una cueva oscura? ¿Necesitas el mejor encantamiento bajo la luz de la luna de bloques? ¡Nuestras guias te iluminaran el camino!</p>
+        </section>
+
+        <section id="equipo-section" class="static-page-section">
+            <h2>El Equipo Constructor del Amanecer</h2>
+            <p>Conoce a los artesanos detras de cada bloque de informacion en "Zona de Bloques", forjando ideas con la primera luz.</p>
+            
+            <div class="team-grid">
+                <article class="team-member-card">
+                    <div class="member-logo shizuma-rose" title="Rosa Roja Pixelada">🌹</div>
+                    <div class="member-info">
+                        <h4>Shizuma Hanazono</h4>
+                        <p class="member-bio">"Amante de los videojuegos y el anime Yuri, mi pico de diamante siempre busca la Etoile mas brillante de Astraea en cada mundo."</p>
+                    </div>
+                </article>
+
+                <article class="team-member-card">
+                    <div class="member-logo megumi-boom" title="Explosión Pixelada">💥</div>
+                    <div class="member-info">
+                        <h4>Megumi</h4>
+                        <p class="member-bio">"¡Prepárate! Esto no es creepypasta, es TNT pura: pasion, analisis, y explosiones de conocimiento hardcore."</p>
+                    </div>
+                </article>
+
+                <article class="team-member-card"> <!-- No necesita la clase 'mystery' aquí si ya está estilizado por defecto -->
+                    <div class="member-logo mystery-q">❓</div>
+                    <div class="member-info">
+                        <h4>??? Proximamente ???</h4>
+                        <p class="member-bio">Un nuevo jugador se unira al servidor... ¿Traera diamantes o solo telarañas?</p>
+                    </div>
+                </article>
+
+                <article class="team-member-card">
+                    <div class="member-logo mystery-q">❓</div>
+                    <div class="member-info">
+                        <h4>??? Proximamente ???</h4>
+                        <p class="member-bio">Se escuchan ruidos en la mina... ¡Alguien mas esta a punto de ser desenterrado!</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="blog-footer">
+        <p>&copy; 2023 El Musulmán - Zona de Bloques</p>
+        <p>Construyendo Noticias, Pixel por Pixel.</p>
+    </footer>
+
+    <script>
+        const articlesData = [
+            {
+                id: 1,
+                title: "Review: 'Pixel Titans' - El Nuevo RPG Bloque a Bloque",
+                date: "10 de Noviembre, 2023",
+                category: "Análisis", // Esta categoría debería coincidir con una sección para la temática
+                author: "Shizuma Hanazono",
+                thumbnail: "https://via.placeholder.com/128x128/5DBE30/2E2E2E?text=PixelRPG",
+                excerpt: "Tras incontables horas crafteando y explorando, te traemos nuestro veredicto sobre 'Pixel Titans'. ¿Es el próximo clásico o solo un montón de bloques sin alma?",
+                fullContent: `
+                    <p>'Pixel Titans' prometía ser la experiencia RPG definitiva para los amantes de la estética de bloques, y después de sumergirnos en su mundo durante más de 64 horas (¡un stack completo!), estamos listos para compartir nuestras impresiones.</p>
+                    <img src="https://via.placeholder.com/512x256/5DBE30/2E2E2E?text=Pixel+Titans+Gameplay" alt="Gameplay de Pixel Titans">
+                    <h3>Crafteo Profundo y Mundo Expansivo</h3>
+                    <p>El sistema de crafteo es, sin duda, uno de los puntos más fuertes. Con cientos de recetas y la posibilidad de combinar materiales de formas inesperadas, la creatividad es tu único límite. El mundo es vasto y generado proceduralmente, ofreciendo biomas diversos que van desde bosques encantados de abedules hasta nether-caverns llenas de creepers pixelados.</p>
+                    <h3>Combate por Turnos... ¿Innovador?</h3>
+                    <p>El combate adopta un sistema por turnos que intenta ser estratégico, pero a veces se siente un poco lento. Si bien hay una buena variedad de habilidades y equipamiento (¡espadas de diamante encantadas!), la IA enemiga podría necesitar algunos parches para ofrecer un desafío más dinámico.</p>
+                    <h3>Veredicto del Constructor</h3>
+                    <p>Con una banda sonora chiptune pegadiza y un encanto visual innegable, 'Pixel Titans' es una adición sólida al género. No reinventa la rueda (o el bloque, en este caso), pero ofrece una experiencia de crafteo y exploración muy satisfactoria. Recomendado para quienes buscan perderse en un nuevo mundo pixelado con mucho por descubrir. Nota: 7.5/10 bloques de diamante.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Top 5 Mods de Anime para 'BlockCraft Adventures'",
+                date: "08 de Noviembre, 2023",
+                category: "Guías", // Esta categoría debería coincidir con una sección para la temática
+                author: "Megumi",
+                thumbnail: "https://via.placeholder.com/128x128/8B5A2B/F0F0F0?text=AnimeMods",
+                excerpt: "¡Transforma tu mundo de 'BlockCraft Adventures' en un paraíso otaku! Te presentamos los mods imprescindibles para invocar a tus waifus y husbandos pixelados.",
+                fullContent: `
+                    <p>¿Cansado de los mismos mobs de siempre en 'BlockCraft Adventures'? ¿Sueñas con tener a tu personaje de anime favorito como compañero de aventuras (o como un jefe final épico)? ¡Entonces esta guía de mods es para ti! Hemos minado la red en busca de las mejores modificaciones que fusionan el mundo de los bloques con el universo del anime.</p>
+                    <h3>1. Mod "Waifu Dimensions"</h3>
+                    <p>Añade una nueva dimensión llena de personajes femeninos icónicos del anime, cada una con habilidades únicas y quests personalizadas. ¡Cuidado, algunas son más tsunderes que creepers!</p>
+                    <img src="https://via.placeholder.com/512x256/8B5A2B/F0F0F0?text=Waifu+Mod" alt="Mod Waifu Dimensions">
+                    <h3>2. "Shonen Power-Up System"</h3>
+                    <p>Este mod introduce mecánicas de power-up al estilo shonen. Entrena, desbloquea transformaciones (¡Super Bloqueador Nivel 3!) y lanza ataques de energía pixelada. Perfecto para recrear tus batallas de anime favoritas.</p>
+                    <h3>3. "Kawaii Biomes Overhaul"</h3>
+                    <p>Reemplaza los biomas estándar con versiones increíblemente adorables y coloridas inspiradas en escenarios de animes slice-of-life y de fantasía. ¡Hasta los zombies se ven más monos!</p>
+                    <h3>4. "Mecha-Craft Expansion"</h3>
+                    <p>Para los fans de los mechas, este mod permite construir y pilotar robots gigantes personalizables. Defiende tu base de bloques de invasiones de kaijus pixelados.</p>
+                    <h3>5. "Isekai Portal Generator"</h3>
+                    <p>¿Quieres ser transportado a otro mundo? Este mod te permite craftear portales a dimensiones inspiradas en famosos animes isekai. Cada mundo tiene sus propias reglas, mobs y tesoros. ¡No olvides tu pico de netherita!</p>
+                    <p>¡Instala estos mods y prepárate para una sobredosis de acción y 'moe' en tu 'BlockCraft Adventures'! Recuerda siempre hacer backups de tu mundo antes de instalar mods.</p>
+                `
+            }
+        ];
+
+        const bodyElement = document.body;
+        const newsFeedSection = document.getElementById('news-feed-section');
+        const singleArticleSection = document.getElementById('single-article-section');
+        const singleArticleTitle = document.getElementById('singleArticleTitle');
+        const singleArticleMeta = document.getElementById('singleArticleMeta');
+        const singleArticleContent = document.getElementById('singleArticleContent');
+        const backToNewsBtn = document.getElementById('backToNewsBtn');
+        const navHomeLogoLink = document.querySelector('.logo-container a'); 
+
+        const staticSections = {
+            home: newsFeedSection,
+            noticias: newsFeedSection, 
+            analisis: document.getElementById('analisis-section'),
+            guias: document.getElementById('guias-section'),
+            equipo: document.getElementById('equipo-section')
+        };
+
+        const navLinks = {
+            home: document.getElementById('nav-home'),
+            noticias: document.getElementById('nav-noticias'),
+            analisis: document.getElementById('nav-analisis'),
+            guias: document.getElementById('nav-guias'),
+            equipo: document.getElementById('nav-equipo')
+        };
+        
+        const sectionThemes = {
+            home: 'theme-day',
+            noticias: 'theme-day',
+            analisis: 'theme-afternoon',
+            guias: 'theme-night',
+            equipo: 'theme-dawn',
+            singleArticle: 'theme-day' 
+        };
+
+        let currentSectionIdForArticle = 'home'; // Para saber desde qué sección se abrió un artículo
+
+        function applyTheme(themeClass) {
+            bodyElement.className = ''; 
+            bodyElement.classList.add(themeClass);
+        }
+
+        function showSection(sectionIdToShow) {
+            Object.values(staticSections).forEach(section => {
+                if (section) section.style.display = 'none';
+            });
+            singleArticleSection.style.display = 'none'; 
+            
+            Object.values(navLinks).forEach(link => {
+                if(link) link.classList.remove('active');
+            });
+
+            let themeToApply;
+
+            if (sectionIdToShow === 'singleArticle') {
+                singleArticleSection.style.display = 'block';
+                if (navLinks[currentSectionIdForArticle]) navLinks[currentSectionIdForArticle].classList.add('active');
+                else if (navLinks.home) navLinks.home.classList.add('active'); // Fallback
+                themeToApply = sectionThemes[currentSectionIdForArticle] || 'theme-day';
+            } else if (staticSections[sectionIdToShow]) {
+                staticSections[sectionIdToShow].style.display = 'block';
+                if (navLinks[sectionIdToShow]) navLinks[sectionIdToShow].classList.add('active');
+                if (sectionIdToShow === 'home' || sectionIdToShow === 'noticias') {
+                    if (navLinks.home) navLinks.home.classList.add('active'); // 'Inicio' siempre activo si es home/noticias
+                }
+                themeToApply = sectionThemes[sectionIdToShow] || 'theme-day';
+                currentSectionIdForArticle = sectionIdToShow; // Actualizar la sección actual
+            } else {
+                // Fallback si sectionIdToShow no es válido
+                staticSections.home.style.display = 'block';
+                if(navLinks.home) navLinks.home.classList.add('active');
+                themeToApply = 'theme-day';
+                currentSectionIdForArticle = 'home';
+            }
+            
+            applyTheme(themeToApply);
+            window.scrollTo(0,0);
+        }
+        
+        function renderNewsFeed() {
+            newsFeedSection.innerHTML = ''; 
+            articlesData.forEach(article => {
+                const articleDiv = document.createElement('article');
+                articleDiv.classList.add('article-summary');
+                // Simular la categoría para aplicar el tema al abrir el artículo
+                let articleThemeKey = 'noticias'; // Default
+                if (article.category && article.category.toLowerCase() === 'análisis') articleThemeKey = 'analisis';
+                if (article.category && article.category.toLowerCase() === 'guías') articleThemeKey = 'guias';
+
+                articleDiv.innerHTML = `
+                    ${article.thumbnail ? `<img src="${article.thumbnail}" alt="${article.title}" class="thumbnail">` : ''}
+                    <div class="summary-content">
+                        <h2><a href="#" class="read-more-link" data-id="${article.id}" data-theme-key="${articleThemeKey}">${article.title}</a></h2>
+                        <p class="meta-info">
+                            <span class="category">${article.category}</span>
+                            ${article.date} | Por: ${article.author}
+                        </p>
+                        <p class="excerpt">${article.excerpt}</p>
+                        <a href="#" class="read-more-btn read-more-link" data-id="${article.id}" data-theme-key="${articleThemeKey}">Leer Mas &gt;&gt;</a>
+                    </div>
+                `;
+                newsFeedSection.appendChild(articleDiv);
+            });
+
+            document.querySelectorAll('.read-more-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const articleId = parseInt(e.target.closest('.read-more-link').dataset.id);
+                    const themeKey = e.target.closest('.read-more-link').dataset.themeKey || 'home';
+                    currentSectionIdForArticle = themeKey; // Establecer el tema antes de mostrar el artículo
+                    renderSingleArticle(articleId);
+                });
+            });
+        }
+
+        function renderSingleArticle(articleId) {
+            const article = articlesData.find(art => art.id === articleId);
+            if (article) {
+                singleArticleTitle.textContent = article.title;
+                singleArticleMeta.innerHTML = `<span class="category">${article.category}</span> ${article.date} | Por: ${article.author}`;
+                singleArticleContent.innerHTML = article.fullContent;
+                showSection('singleArticle'); // showSection ahora usará currentSectionIdForArticle para el tema
+            }
+        }
+        
+        if (navHomeLogoLink) {
+            // Asumo que el logo siempre lleva a 'home' con tema 'día'
+            navHomeLogoLink.addEventListener('click', (e) => { e.preventDefault(); currentSectionIdForArticle='home'; showSection('home'); });
+        }
+
+        Object.keys(navLinks).forEach(key => {
+            if (navLinks[key]) {
+                navLinks[key].addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // currentSectionIdForArticle = key; // No necesitamos esto aquí, showSection lo maneja
+                    showSection(key);
+                });
+            }
+        });
+
+        backToNewsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection(currentSectionIdForArticle === 'singleArticle' ? 'home' : currentSectionIdForArticle); // Volver al tema de la sección anterior o a home
+        });
+
+        renderNewsFeed();
+        showSection('home');
+
+    </script>
+</body>
+</html>
